@@ -12,6 +12,7 @@
 		]]>
 	</select>
 	
+	
 	<!-- 추가 insert -->
 	<insert id="insertSelectKey" parameterType="PersonVo">
 		<![CDATA[
