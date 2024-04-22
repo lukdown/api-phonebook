@@ -7,7 +7,7 @@ name: Deploy PhonebookApp	# 워크플로워 이름
 on:
   push:
     branches:
-      - master # master 깃허브에 push가 되면 작동
+      - master
 
 
 jobs:
