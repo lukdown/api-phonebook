@@ -1,14 +1,15 @@
-name: Deploy PhonebookApp	# 워크플로워 이름
+name: Deploy Phonebook App
+
+
+#on:
+#  workflow_dispatch:
+#    inputs:
 
 
 on:
-  workflow_dispatch:
-
-#on:
-#  push:
-#    branches:
-#      - master # master 깃허브에 push가 되면 작동
-
+  push:
+    branches:
+      - master # 또는 프로젝트의 기본 브랜치명
 
 jobs:
   build-and-deploy:
@@ -27,15 +28,15 @@ jobs:
         run: mvn clean package
 
       - name: Build Docker image
-        run: docker build -t lukdown10/phonebook:latest .
-        # run: docker build . -t lukdown10/phonebook:latest
+        run: docker build . -t lukdown10/phonebook:latest
 
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Push Docker image to Docker Hub
         run: docker push lukdown10/phonebook:latest
-
+        
+        
   SSH:
     needs: build-and-deploy
     runs-on: ubuntu-latest
@@ -48,8 +49,12 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            sudo mkdir -p /home/ec2-user/upload
             sudo docker pull lukdown10/phonebook:latest
             sudo docker stop phonebook || true
             sudo docker rm phonebook || true
-            sudo docker run -d --name phonebook -p 9003:9003 lukdown10/phonebook:latest
-        
+            sudo docker run -d \
+              --name phonebook \
+              -p 9003:9003 \
+              -v /home/ec2-user/upload:/app/upload \
+              lukdown10/phonebook:latest
