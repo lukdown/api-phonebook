@@ -4,6 +4,7 @@
 <mapper namespace="phonebook">
 	<!-- 쿼리문작성 -->
 
+
 	<!-- 전체리스트 -->
 	<select id="selectList" resultType="PersonVo">
 		<![CDATA[
