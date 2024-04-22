@@ -23,6 +23,7 @@
 	</insert>
 	
 	
+	
 	<!-- 1명 데이터 가져오기 -->
 	<select id="selectOne" parameterType="int" resultType="PersonVo">
 		<![CDATA[
