@@ -8,6 +8,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+	// flutter 용
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/api/**") // 경로
+				.allowedMethods("GET", "POST", "PUT", "DELETE")
+				.allowedOrigins("*");
+	}
+	
+	/*
+	// vue(html포함) 용
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/api/**") // 경로
@@ -16,6 +26,7 @@ public class WebConfig implements WebMvcConfigurer {
 				.exposedHeaders("Authorization")// 노출시킬 헤더
 				.allowCredentials(true); // 쿠키허용
 	}
+	*/
 	
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
